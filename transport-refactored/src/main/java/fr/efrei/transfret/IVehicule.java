@@ -1,4 +1,4 @@
-package fr.efrei.transport;
+package fr.efrei.transfret;
 
 /**
  * Interface commune à tous les véhicules de la flotte.

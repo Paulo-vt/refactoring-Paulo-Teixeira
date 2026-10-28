@@ -46,7 +46,7 @@ public class NouveauSystemeAdapter implements SystemeTransport {
 
     @Override
     public Optional<String> creerClient(DemandeClient d) {
-        Client client = serviceClient.creerClient(d.nom(), d.email(), d.telephone(), d.adresse(), d.type().name(), d.siret());
+        Client client = serviceClient.creerClient(d.nom(), d.email(), d.telephone(), d.adresse(), d.type(), d.siret());
         return Optional.ofNullable(client).map(Client::getEmail);
     }
 
@@ -54,7 +54,7 @@ public class NouveauSystemeAdapter implements SystemeTransport {
     public Optional<String> creerExpedition(DemandeExpedition d) {
         Client client = Database.clients.get(d.refClient());
         Expedition expedition = serviceExpedition.creerExpedition(client, versColis(d.colis()), d.villeDepart(),
-                d.villeArrivee(), d.mode().name(), d.urgent(), d.assurance());
+                d.villeArrivee(), d.mode(), d.urgent(), d.assurance());
         return Optional.ofNullable(expedition).map(Expedition::getId);
     }
 
@@ -65,14 +65,13 @@ public class NouveauSystemeAdapter implements SystemeTransport {
             return Optional.empty();
         }
         int delai = (int) ChronoUnit.DAYS.between(jour(e.getDateCreation()), jour(e.getDateLivraisonPrevue()));
-        return Optional.of(new EtatExpedition(e.getId(), Statut.valueOf(e.getStatut()), e.getPrixHT(), e.getPrixTTC(),
+        return Optional.of(new EtatExpedition(e.getId(), e.getStatut(), e.getPrixHT(), e.getPrixTTC(),
                 delai, e.getVehicule().getImmatriculation(), e.getFraisAnnulation()));
     }
 
     @Override
     public OptionalDouble devisTTC(DemandeDevis d) {
-        double devis = serviceExpedition.calculerDevis(versColis(d.colis()), d.villeDepart(), d.villeArrivee(),
-                d.mode().name(), d.urgent(), d.assurance(), d.typeClient().name());
+        double devis = serviceExpedition.calculerDevis(versColis(d.colis()), d.villeDepart(), d.villeArrivee(), d.mode(), d.urgent(), d.assurance(), d.typeClient());
         return devis == -1 ? OptionalDouble.empty() : OptionalDouble.of(devis);
     }
 
@@ -118,7 +117,7 @@ public class NouveauSystemeAdapter implements SystemeTransport {
 
     private static Colis versColis(ColisDto c) {
         return new Colis(c.description(), c.poidsKg(), c.longueurCm(), c.largeurCm(), c.hauteurCm(),
-                codeType(c.type()), c.valeurDeclaree());
+                c.type(), c.valeurDeclaree());
     }
 
     private static int codeType(TypeMarchandise type) {

@@ -1,4 +1,4 @@
-package fr.efrei.transport;
+package fr.efrei.transfret;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

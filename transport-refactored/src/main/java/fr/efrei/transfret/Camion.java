@@ -1,4 +1,5 @@
-package fr.efrei.transport;
+package fr.efrei.transfret;
+
 
 public class Camion extends Vehicule {
 

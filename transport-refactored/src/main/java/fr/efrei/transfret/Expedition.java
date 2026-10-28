@@ -1,8 +1,13 @@
-package fr.efrei.transport;
+package fr.efrei.transfret;
+
+import fr.efrei.transport.contrat.*;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import static fr.efrei.transport.contrat.Statut.*;
+import static fr.efrei.transport.contrat.TypeClient.*;
 
 public class Expedition {
 
@@ -12,10 +17,10 @@ public class Expedition {
     private String villeDepart;
     private String villeArrivee;
     private int distance;
-    private String mode;
+    private ModeTransport mode;
     private boolean urgent;
     private boolean assurance;
-    private String statut;
+    private Statut statut;
     private Date dateCreation;
     private Date dateLivraisonPrevue;
     private Vehicule vehicule;
@@ -57,7 +62,7 @@ public class Expedition {
         sb.append("Facture n° F-" + id + "\n");
         sb.append("Date : " + Utils.formaterDate(new Date()) + "\n");
         sb.append("Client : " + client.getNom() + "\n");
-        if (client.getType().equals("ENTREPRISE")) {
+        if (client.getType().equals(ENTREPRISE)) {
             sb.append("SIRET : " + client.getSiret() + "\n");
         }
         sb.append("Adresse : " + client.getAdresse() + "\n");
@@ -69,7 +74,7 @@ public class Expedition {
             sb.append("  - " + c.getDescription() + " : " + c.getPoids() + " kg [" + c.getLibelleType() + "]\n");
         }
         sb.append("----------------------------------------------\n");
-        if (statut.equals("ANNULEE")) {
+        if (statut.equals(ANNULEE)) {
             sb.append("EXPEDITION ANNULEE\n");
             sb.append("Frais d'annulation TTC : " + String.format("%.2f", fraisAnnulation) + " €\n");
         } else {
@@ -129,11 +134,11 @@ public class Expedition {
         this.distance = distance;
     }
 
-    public String getMode() {
+    public ModeTransport getMode() {
         return mode;
     }
 
-    public void setMode(String mode) {
+    public void setMode(ModeTransport mode) {
         this.mode = mode;
     }
 
@@ -153,11 +158,11 @@ public class Expedition {
         this.assurance = assurance;
     }
 
-    public String getStatut() {
+    public Statut getStatut() {
         return statut;
     }
 
-    public void setStatut(String statut) {
+    public void setStatut(Statut statut) {
         this.statut = statut;
     }
 

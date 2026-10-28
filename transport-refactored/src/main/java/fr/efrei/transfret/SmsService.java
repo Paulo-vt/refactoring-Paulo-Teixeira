@@ -1,4 +1,4 @@
-package fr.efrei.transport;
+package fr.efrei.transfret;
 
 import java.util.ArrayList;
 import java.util.List;
